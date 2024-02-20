@@ -117,7 +117,7 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of sudo apt autoremoveany class"""
         if not args:
             print("** class name missing **")
-        return
+            return
         try:
             class_name = args.split(" ")[0]
         except IndexError:
