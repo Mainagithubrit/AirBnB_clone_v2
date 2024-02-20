@@ -1,7 +1,7 @@
--- a script that prepares a MySQL server
--- Database: hbnb_dev_db
--- User: hbnb_dev
--- Password: hbnb_dev_pwd
+-- a script that prepares a MySQL server.
+-- Database: hbnb_dev_db.
+-- User: hbnb_dev.
+-- Password: hbnb_dev_pwd.
 
 -- Creating the Database
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
