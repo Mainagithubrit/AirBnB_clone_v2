@@ -114,15 +114,15 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """ Create an object of sudo apt autoremoveany class"""
+        if not args:
+            print("** class name missing **")
+        return
         try:
             class_name = args.split(" ")[0]
         except IndexError:
             pass
-        if not class_name:
-            print("** class name missing **")
-            return
-        elif class_name not in HBNBCommand.classes:
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         all_list = args.split(" ")
