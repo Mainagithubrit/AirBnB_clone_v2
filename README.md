@@ -140,3 +140,29 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 (hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
 ```
 <br>
+
+<center> <h1>AirBnB clone - MySQL</h1> </center>
+ 
+ In this project we are supposed to implement an database to AirBnB_clone, we will be using sqlalchemy with MySQL. This Project has Eleven tasks which include:
+ 
+ 0. Fork me if you can!
+
+ 1. Bug free!
+
+ 2. Console improvements 
+
+ 3. MySQL setup development
+
+ 4. MySQL setup test
+
+ 5. Delete object
+
+ 6. DBStorage - States and Cities
+
+ 7. DBStorage - User
+
+ 8. DBStorage - place
+
+ 9. DBStorage - Review 
+
+ 10. DBStorage - Amenity... and BOOM!
