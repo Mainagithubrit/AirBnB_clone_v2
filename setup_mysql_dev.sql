@@ -10,7 +10,7 @@ CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 CREATE USER 'hbnb_dev'@'localhost' IDENTIFIED BY 'hbnb_dev_pwd';
 
 -- Granting the privilages
-GRANT ALL PRIVILEGES ON hbnb_dev_db.* TO 'hbnb_dev'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON hbnb_dev_db.* TO 'hbnb_dev'@'localhost';
 
 -- Granting select privilages
 GRANT SELECT ON performance_schema.* 'hbnb_dev'@'localhost';
