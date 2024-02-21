@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """An sqlalchemy engine"""
 from models.base_model import Base
-from os import getenv, getenvb
+from os import getenv
 from models.city import City
 from models.state import State
 from models.user import User
 from models.review import Review
 from models.place import Place
 from models.amenity import Amenity
-from sqlalchemy.orm import Session, session, sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import (create_engine)
 from sqlalchemy.ext.declarative import declarative_base
 
