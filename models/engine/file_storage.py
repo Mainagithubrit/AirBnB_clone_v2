@@ -18,14 +18,14 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        dic = {}
-        if cls:
-            dictionary = self.__objects
-            for key in dictionary:
-                partition = key.replace(' . ', ' ')
-                partition = shlex.split(partition)
-                if (partition[0] == cls.__name__):
-                    dic[key] = self.__objects[key]
+    dic = {}
+    if cls:
+        dictionary = self.__objects
+        for key in dictionary:
+            partition = key.replace('.', ' ')
+            partition = shlex.split(partition)
+            if (partition[0] == cls.__name__):
+                dic[key] = self.__objects[key]
             return (dic)
         else:
             return self.__objects
@@ -69,11 +69,11 @@ class FileStorage:
 
     def delete(self, obj=None):
         """Defines a function to delete obj from __objects"""
-         
+
         if obj:
             key = "{}.{}".format(type(obj).__name__, obj.id)
             del self.__objects[key]
-    
+
     def close(self):
         """calls reload()"""
         self.reload()
