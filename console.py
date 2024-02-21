@@ -113,41 +113,52 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
-        def do_create(self, args):
-        """ Create an object of any class"""
-        if not args:
-            print("** class name missing **")
-            return
+ 	def do_create(self, args):
+    """Create an object of any class"""
+    if not args:
+        print("** class name missing **")
+        return
+
+    try:
+        class_name, *params = args.split()
+    except ValueError:
+        print("** missing parameters **")
+        return
+
+    if class_name not in HBNBCommand.classes:
+        print("** class doesn't exist **")
+        return
+
+    # Instantiate the class
+    new_instance = HBNBCommand.classes[class_name]()
+
+    for param in params:
         try:
-            class_name = args.split(" ")[0]
-        except IndexError:
-            pass
-        if class_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        all_list = args.split(" ")
-
-        new_instance = eval(class_name)()
-
-        for i in range(1, len(all_list)):
-            key, value = tuple(all_list[i].split("="))
-            if value.startswith('"'):
+            key, value = param.split("=")
+            if value.startswith('"') and value.endswith('"'):
+                # Strip double quotes and replace underscores with spaces for string values
                 value = value.strip('"').replace("_", " ")
+            elif '.' in value:
+                # Parse float values
+                value = float(value)
             else:
-                try:
-                    value = eval(value)
-                except Exception:
-                    print(f"** couldnt evaluate {value}")
-                    pass
-
+                # Parse integer values
+                value = int(value)
+                
+            # Set attribute if it exists in the class
             if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
+            else:
+                print(f"** attribute '{key}' doesn't exist in class '{class_name}' **")
+        except ValueError:
+            print(f"** invalid parameter format: {param} **")
+        except Exception as e:
+            print(f"** error occurred: {e} **")
 
-            storage.new(new_instance)
-            print(new_instance.id)
-            new_instance.save()
+    # Add the new instance to storage
+    storage.new(new_instance)
+    storage.save()
+    print(new_instance.id)
 
 
     def help_create(self):
