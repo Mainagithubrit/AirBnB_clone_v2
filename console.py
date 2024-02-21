@@ -113,11 +113,11 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
- 	def do_create(self, args):
-    """Create an object of any class"""
-    if not args:
-        print("** class name missing **")
-        return
+    def do_create(self, args):
+        """Create an object of any class"""
+        if not args:
+            print("** class name missing **")
+            return
 
     try:
         class_name, *params = args.split()
@@ -136,7 +136,8 @@ class HBNBCommand(cmd.Cmd):
         try:
             key, value = param.split("=")
             if value.startswith('"') and value.endswith('"'):
-                # Strip double quotes and replace underscores with spaces for string values
+                # Strip double quotes and replace underscores with
+                # spaces for string values
                 value = value.strip('"').replace("_", " ")
             elif '.' in value:
                 # Parse float values
@@ -144,23 +145,26 @@ class HBNBCommand(cmd.Cmd):
             else:
                 # Parse integer values
                 value = int(value)
-                
+
             # Set attribute if it exists in the class
             if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
             else:
-                print(f"** attribute '{key}' doesn't exist in class '{class_name}' **")
+                print(f"** attribute '{key}' doesn't exist in
+                      class '{class_name}' **")
         except ValueError:
             print(f"** invalid parameter format: {param} **")
         except Exception as e:
             print(f"** error occurred: {e} **")
 
-    # Add the new instance to storage
-    storage.new(new_instance)
-    storage.save()
-    storage.reload()
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        # Add the new instance to storage
+        storage.new(new_instance)
+        storage.save()
+    else:
+        new_instance.save()
     print(new_instance.id)
-
+    storage.save()
 
     def help_create(self):
         """ Help information for the create method """
