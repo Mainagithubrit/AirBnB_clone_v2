@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of sudo apt autoremoveany class"""
+        """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
