@@ -119,22 +119,22 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-    try:
-        class_name, *params = args.split()
-    except ValueError:
-        print("** missing parameters **")
-        return
-
-    if class_name not in HBNBCommand.classes:
-        print("** class doesn't exist **")
-        return
-
-    # Instantiate the class
-    new_instance = HBNBCommand.classes[class_name]()
-
-    for param in params:
         try:
-            key, value = param.split("=")
+            class_name, *params = args.split()
+        except ValueError:
+            print("** missing parameters **")
+        return
+
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+        return
+
+        # Instantiate the class
+        new_instance = HBNBCommand.classes[class_name]()
+
+        for param in params:
+        try:
+                key, value = param.split("=")
             if value.startswith('"') and value.endswith('"'):
                 # Strip double quotes and replace underscores with
                 # spaces for string values
@@ -150,21 +150,20 @@ class HBNBCommand(cmd.Cmd):
             if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
             else:
-                print(f"** attribute '{key}' doesn't exist in
-                      class '{class_name}' **")
-        except ValueError:
+                print(f"** attribute '{key}' doesn't exist in class '{class_name}' **")
+            except ValueError:
             print(f"** invalid parameter format: {param} **")
-        except Exception as e:
+            except Exception as e:
             print(f"** error occurred: {e} **")
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        # Add the new instance to storage
-        storage.new(new_instance)
-        storage.save()
-    else:
-        new_instance.save()
-    print(new_instance.id)
-    storage.save()
+        if getenv("HBNB_TYPE_STORAGE") == "db":
+            # Add the new instance to storage
+            storage.new(new_instance)
+            storage.save()
+        else:
+            new_instance.save()
+            print(new_instance.id)
+            storage.reload()
 
     def help_create(self):
         """ Help information for the create method """
