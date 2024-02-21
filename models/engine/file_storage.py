@@ -17,15 +17,16 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
-    dic = {}
-    if cls:
-        dictionary = self.__objects
-        for key in dictionary:
-            partition = key.replace('.', ' ')
-            partition = shlex.split(partition)
-            if (partition[0] == cls.__name__):
-                dic[key] = self.__objects[key]
+        """Defines a function that deletes obj from __objects"""
+
+        dic = {}
+        if cls:
+            dictionary = self.__objects
+            for key in dictionary:
+                partition = key.replace('.', ' ')
+                partition = shlex.split(partition)
+                if (partition[0] == cls.__name__):
+                    dic[key] = self.__objects[key]
             return (dic)
         else:
             return self.__objects
