@@ -117,7 +117,7 @@ class HBNBCommand(cmd.Cmd):
         """Create an object of any class"""
         if not args:
             print("** class name missing **")
-            return
+        return
 
         try:
             class_name, *params = args.split()
@@ -133,37 +133,37 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[class_name]()
 
         for param in params:
-        try:
+            try:
                 key, value = param.split("=")
-            if value.startswith('"') and value.endswith('"'):
-                # Strip double quotes and replace underscores with
-                # spaces for string values
-                value = value.strip('"').replace("_", " ")
-            elif '.' in value:
-                # Parse float values
-                value = float(value)
-            else:
-                # Parse integer values
-                value = int(value)
+                if value.startswith('"') and value.endswith('"'):
+                    # Strip double quotes and replace
+                    # underscores with spaces for string values
+                    value = value.strip('"').replace("_", " ")
+                elif '.' in value:
+                    # Parse float values
+                    value = float(value)
+                else:
+                    # Parse integer values
+                    value = int(value)
 
-            # Set attribute if it exists in the class
-            if hasattr(new_instance, key):
-                setattr(new_instance, key, value)
-            else:
-                print(f"** attribute '{key}' doesn't exist in class '{class_name}' **")
+                # Set attribute if it exists in the class
+                if hasattr(new_instance, key):
+                    setattr(new_instance, key, value)
+                else:
+                    print(f"** attribute '{key}' doesn't exist in class '{class_name}' **")
             except ValueError:
-            print(f"** invalid parameter format: {param} **")
+                print(f"** invalid parameter format: {param} **")
+                return
             except Exception as e:
-            print(f"** error occurred: {e} **")
+                print(f"** error occurred: {e} **")
+                return
 
-        if getenv("HBNB_TYPE_STORAGE") == "db":
             # Add the new instance to storage
             storage.new(new_instance)
             storage.save()
-        else:
-            new_instance.save()
-            print(new_instance.id)
             storage.reload()
+            print(new_instance.id)
+
 
     def help_create(self):
         """ Help information for the create method """
