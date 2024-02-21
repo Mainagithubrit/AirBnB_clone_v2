@@ -28,7 +28,7 @@ class BaseModel:
             updated_at: updated time and date
             """
 
-       if kwargs:
+        if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
@@ -42,7 +42,7 @@ class BaseModel:
                 self.updated_at = datetime.now()
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now() 
+            self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
