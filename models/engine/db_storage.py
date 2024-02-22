@@ -12,6 +12,7 @@ from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
 
+
 class DBStorage:
     """a class create tables in environmental"""
     __engine = None
@@ -31,26 +32,53 @@ class DBStorage:
         if env == "test":
             Base.metadata.drop_all(self.__engine)
 
+    def reload(self):
+        """create all tables in the database
+        and
+        create the current database session
+        """
+        Base.metadata.create_all(self.__engine)
+        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(sec)
+        self.__session = Session()
+
     def all(self, cls=None):
         """
             returns a dictionary of __object
         """
-        dic = {}
-        if cls:
-            if type(cls) is str:
-                cls = eval(cls)
-            query = self.__session.query(cls)
-            for elem in query:
-                key = "{}.{}".format(type(elem).__name__, elem.id)
-                dic[key] = elem
+        allClasses = [User, Place, State, City, Amenity, Review]
+        result = {}
+
+        if cls is not None:
+            if id is not None:
+                obj = self.__session.query(cls).get(id)
+                if obj is not None:
+                    ClassName = obj.__class__.__name__
+                    keyName = ClassName + "." + str(obj.id)
+                    result[keyName] = obj
+            else:
+                for obj in self.__session.query(cls).all():
+                    ClassName = obj.__class__.__name__
+                    keyName = ClassName + "." + str(obj.id)
+                    result[keyName] = obj
         else:
-            lista = [State, City, User, Place, Review, Amenity]
-            for clase in lista:
-                query = self.__session.query(clase)
-                for elem in query:
-                    key = "{}.{}".format(type(elem).__name__, elem.id)
-                    dic[key] = elem
-        return (dic)
+            for clss in allClasses:
+                if id is not None:
+                    obj = self.__session.query(clss).get(id)
+                    if obj is not None:
+                        ClassName = obj.__class__.__name__
+                        keyName = ClassName + "." + str(obj.id)
+                        result[keyName] = obj
+                else:
+                    for obj in self.__session.query(clss).all():
+                        ClassName = obj.__class__.__name__
+                        keyName = ClassName + "." + str(obj.id)
+                        result[keyName] = obj
+        return result
+
+    def search(self, cls, id):
+        """Searches through"""
+        data = self.all(cls)
 
     def new(self, obj):
         """add the object to the current database session
@@ -67,16 +95,6 @@ class DBStorage:
         """
         if obj:
             self.session.delete(obj)
-
-    def reload(self):
-        """create all tables in the database
-        and
-        create the current database session
-        """
-        Base.metadata.create_all(self.__engine)
-        sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(sec)
-        self.__session = Session()
 
     def close(self):
         """ this function calls remove()
