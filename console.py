@@ -76,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
                     if (
                             pline[0] == '{' 
                             and pline[-1] == '}'
-                            and type(eval(pline)) is dict:
+                            and type(eval(pline)) is dict
                         ):
                         _args = pline
                     else:
