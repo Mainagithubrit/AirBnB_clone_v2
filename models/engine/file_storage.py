@@ -13,9 +13,9 @@ class FileStorage:
         dictionary = {}
         if cls:
             cls_name = cls.__name__
-            for key, value in FileStorage.__objects.items()
-            if key.split('.')[0] == cls_name:
-                dictionary[key] = value
+            for key, value in FileStorage.__objects.items():
+                if key.split('.')[0] == cls_name:
+                    dictionary[key] = value
             return dictionary
         else:
             return FileStorage.__objects

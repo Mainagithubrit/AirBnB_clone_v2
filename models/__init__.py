@@ -12,7 +12,8 @@ from models.review import Review
 from os import getenv
 
 
-if getenv('HBNB_TYPE_STORAGE') == 'db':
+StorageType = getenv('HBNB_TYPE_STORAGE')
+if StorageType == 'db':
     storage = DBStorage()
 else:
     storage = FileStorage()
