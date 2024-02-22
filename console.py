@@ -65,7 +65,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline.partition(', ')  # pline convert to tuple
 
                 # isolate _id, stripping quotes
-                _id = pline[0].replace('\"', '')
+                _id = pline[0].replace('"', '')
                 # possible bug here:
                 # empty quotes register as empty _id when replaced
 
@@ -74,10 +74,10 @@ class HBNBCommand(cmd.Cmd):
                 if pline:
                     # check for *args or **kwargs
                     if (
-                            pline[0] == '{' 
-                            and pline[-1] == '}'
-                            and type(eval(pline)) is dict
-                        ):
+                        pline[0] == '{'
+                        and pline[-1] == '}'
+                        and type(eval(pline)) is dict
+                    ):
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -120,51 +120,26 @@ class HBNBCommand(cmd.Cmd):
         """Create an object of any class"""
         if not args:
             print("** class name missing **")
-        return
-
-        try:
-            class_name, *params = args.split()
-        except ValueError:
-            print("** missing parameters **")
-        return
-
+            return
+        args_array = args.split()
+        class_name = args_array[0]
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
-        return
-
-        # Instantiate the class
+            return
         new_instance = HBNBCommand.classes[class_name]()
-
-        for param in params:
-            try:
-                key, value = param.split("=")
-                if value.startswith('"') and value.endswith('"'):
-                    # Strip double quotes and replace
-                    # underscores with spaces for string values
-                    value = value.strip('"').replace("_", " ")
-                elif '.' in value:
-                    # Parse float values
-                    value = float(value)
-                else:
-                    # Parse integer values
-                    value = int(value)
-
-                # Set attribute if it exists in the class
-                if hasattr(new_instance, key):
+        for param_index in range(1, len(args_array)):
+            param_array = args_array[param_index].split("=")
+            if len(param_array) == 2:
+                key = param_array[0]
+                if key not in HBNBCommand.valid_keys[class_name]:
+                    continue
+                value = self.parse_value(param_array[1])
+                if value is not None:
                     setattr(new_instance, key, value)
-                else:
-                    print(f"** attribute '{key}' doesn't exist in class '{class_name}' **")
-            except ValueError:
-                print(f"** invalid parameter format: {param} **")
-                return
-            except Exception as e:
-                print(f"** error occurred: {e} **")
-                return
-
-            # Add the new instance to storage
-            storage.new(new_instance)
-            print(new_instance.id)
-            new_instance.save()
+            else:
+                pass
+        new_instance.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
