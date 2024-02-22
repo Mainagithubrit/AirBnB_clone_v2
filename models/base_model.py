@@ -27,22 +27,17 @@ class BaseModel:
             created_at: creation time and date
             updated_at: updated time and date
             """
-
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.datetime.now()
+        self.updated_at = datetime.datetime.now()
         if kwargs:
             for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                if key != "__class__":
+                if key in ["created_at", "updated_at"]:
+                    date = datetime.datetime.strptime(
+                        value, "%Y-%m-%dT%H:%M:%S.%f")
+                    setattr(self, key, date)
+                elif key != "__class__":
                     setattr(self, key, value)
-            if "id" not in kwargs:
-                self.id = str(uuid.uuid4())
-            if "created_at" not in kwargs:
-                self.created_at = datetime.now()
-            if "updated_at" not in kwargs:
-                self.updated_at = datetime.now()
-        else:
-            self.id = str(uuid.uuid4())
-            self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -60,12 +55,13 @@ class BaseModel:
         """Creates dictionary of the class it returns:
         A dictionary of all the key values in __dict__
         """
-
-        dictionary = dict(self.__dict__)
-        dictionary["__class__"] = str(type(self).__name__)
+        dictionary = {}
+        dictionary.update(self.__dict__)
+        dictionary.update({'__class__':
+                          (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if '_sa_instance_state' in dictionary.keys():
+        if '_sa_instance_state' in dictionary:
             del dictionary['_sa_instance_state']
         return dictionary
 
