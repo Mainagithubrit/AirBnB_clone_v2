@@ -23,6 +23,39 @@ class HBNBCommand(cmd.Cmd):
                'State': State, 'City': City, 'Amenity': Amenity,
                'Review': Review
               }
+    valid_keys = {
+        "BaseModel": ["id", "created_at", "updated_at"],
+        "User": [
+            "id",
+            "created_at",
+            "updated_at",
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+        ],
+        "City": ["id", "created_at", "updated_at", "state_id", "name"],
+        "State": ["id", "created_at", "updated_at", "name"],
+        "Place": [
+            "id",
+            "created_at",
+            "updated_at",
+            "city_id",
+            "user_id",
+            "name",
+            "description",
+            "number_rooms",
+            "number_bathrooms",
+            "max_guest",
+            "price_by_night",
+            "latitude",
+            "longitude",
+            "amenity_ids"
+        ],
+        "Amenity": ["id", "created_at", "updated_at", "name"],
+        "Review": ["id", "created_at", "updated_at",
+                   "place_id", "user_id", "text"],
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
              'number_rooms': int, 'number_bathrooms': int,
@@ -116,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-	def parse_value(self, value):
+    def parse_value(self, value):
         """cast string to float or int if possible"""
         is_valid_value = True
 
