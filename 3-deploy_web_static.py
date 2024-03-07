@@ -19,7 +19,6 @@ def do_pack():
         local("tar -cvzf {} web_static".format(file_name))
         return file_name
     except Exception as e:
-        print(f"An error occurred: {e}")
         return None
 
 
@@ -41,7 +40,6 @@ def do_deploy(archive_path):
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
         return False
 
 
